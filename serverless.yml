@@ -1,0 +1,67 @@
+org: ricardogenaro99
+app: reto-tecnico-backend-nodejs
+service: reto-tecnico-backend-nodejs
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region:  us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 
+            - dynamodb:*
+            - translate:*
+            - comprehend:*
+          Resource: 
+            - "*"
+functions:
+  addData:
+    handler: src/functions/addData.handler
+    events:
+      - httpApi:
+          path: /data
+          method: post
+          cors: true
+  getAllData:
+    handler: src/functions/getAllData.handler
+    events:
+      - httpApi:
+          path: /data
+          method: get
+  getData:
+    handler: src/functions/getData.handler
+    events:
+      - httpApi:
+          path: /data/{id}
+          method: get
+  getDataByEndpoint:
+    handler: src/functions/getDataByEndpoint.handler
+    events:
+      - httpApi:
+          path: /dataByEndpoint/{endpoint}
+          method: get
+      - httpApi:
+          path: /dataByEndpoint
+          method: get
+  listApis:
+    handler: src/functions/listApis.handler
+    events:
+      - httpApi:
+          path: /listApis
+          method: get
+resources:
+  Resources:
+    ChallengeIndraTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ChallengeIndraTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

@@ -1,0 +1,218 @@
+openapi: 3.0.3
+info:
+  title: TECHNICAL CHALLENGE BACKEND NODEJS - RICARDO CHOQUEHUANCA
+  description: |-
+    This technical challenge is part of the evaluation process for the position of Backend Node.js Developer at INDRA. The task is to create an API in Node.js using the Serverless framework, in order to deploy it on AWS. The test API models must also be adapted and transformed, mapping the names of the model attributes from English to Spanish. In addition, you must integrate the StarWars test API and create a personal choice model by using a POST endpoint, storing the information in a database. Finally, a GET endpoint must be created that displays the stored information.
+  contact:
+    name: Ricardo Genaro
+    email: genaro.choquehuanca.palli@gmail.com
+    url: https://ricardo-genaro-portfolio.vercel.app/
+  version: 1.0.0
+externalDocs:
+  description: Learn more about SWAPI
+  url: https://swapi.py4e.com/documentation
+servers:
+  - url: https://of39yj25b5.execute-api.us-east-1.amazonaws.com
+tags:
+  - name: data
+    description: All about data stored in DynamoDB
+  - name: dataByEndpoint
+    description: Interaction with SWAPI in a random search according to the requested endpoint, ending with the storage in DynamoDB
+  - name: listApis
+    description: List of all APIs that interact with SWAPI
+paths:
+  /data:
+    post:
+      tags:
+        - data
+      summary: Add a new data to the database
+      description: Add a new data to the database
+      operationId: addData
+      requestBody:
+        description: Create a new data in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'    
+        '500':
+          description: Error message
+    get:
+      tags:
+        - data
+      summary: Find all the data
+      description: Loop through and retrieve all data stored in DynamoDb
+      operationId: getAllData
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ApiResponseArray'
+        '500':
+          description: Error message
+  /data/{dataId}:
+    get:
+      tags:
+        - data
+      summary: Find data by ID
+      description: Returns a single data
+      operationId: getDataById
+      parameters:
+        - name: dataId
+          in: path
+          description: ID of data to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: Error message
+  /dataByEndpoint:
+    get:
+      tags:
+        - dataByEndpoint
+      summary: Search and store a random SWAPI data
+      description: Makes a query to SWAPI and returns a random object that belongs to any random category given by SWAPI (film, vehicle, people, ...), after which it proceeds to translate the keys of the returned object and store it in DynamoDb
+      operationId: dataByEndpoint
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid tag value
+  /dataByEndpoint/{endpoint}:
+    get:
+      tags:
+        - dataByEndpoint
+      summary: Find random data by category
+      description: Returns a single data
+      parameters:
+        - name: endpoint
+          in: path
+          description: Category of data to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: Error message
+  /listApis:
+    get:
+      tags:
+        - listApis
+      summary: List all apis available to query SWAPI
+      description: List all apis available to query SWAPI `API/dataByEndpoint/{endpoint}`
+      operationId: listApis
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListReponse'
+        '500':
+          description: Error message
+components:
+  schemas:
+    Data:
+      type: object
+      properties:
+        nombre:
+          type: string
+        modelo:
+          type: string
+        fabricante:
+          type: string
+        titulo:
+          type: string
+    BodyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        data:
+          $ref: '#/components/schemas/Data' 
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        body:
+          $ref: '#/components/schemas/BodyResponse' 
+    ApiResponseArray:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        body:
+          type: array
+          items:
+            $ref: '#/components/schemas/BodyResponse' 
+    ListReponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        body:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                BASIC_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/,
+                FILM_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/film,
+                PEOPLE_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/people,
+                PLANET_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/planet,
+                SPECIE_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/specie,
+                STARSHIP_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/starship,
+                VEHICLE_RAMDOM_DATA: 
+                  type: string
+                  example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/vehicle
+              

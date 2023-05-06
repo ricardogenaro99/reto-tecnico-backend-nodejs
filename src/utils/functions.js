@@ -32,15 +32,25 @@ const createItem = async (body) => {
 }
 
 /**
+ * Generates a random integer in the range 1 to `n`.
+ *
+ * @param {number} maxLimit - A positive integer representing the upper limit of the range of random numbers to generate.
+ * @param {boolean} isArray - Optional. If true, the function returns a valid index into an array of length `maxLimit`. By default it is false.
+ * @returns {number} - A random integer in the range 1 to `maxLimit`, or a valid index to an array of length `maxLimit` if `isArray` is true.
+ */
+const generateRandomNumber = (maxLimit, isArray = false) => {
+  const random = Math.floor(Math.random() * maxLimit)
+  return isArray ? random : random + 1
+}
+
+/**
  * Retrieves a random API endpoint from the API object.
  * @function getRamdomApi
  * @returns {string} A random API endpoint.
  */
 const getRamdomApi = () => {
   const arrApiKeys = Object.keys(API)
-  const randomApi = arrApiKeys.at(
-    Math.floor(Math.random() * arrApiKeys.length)
-  )
+  const randomApi = arrApiKeys.at(generateRandomNumber(arrApiKeys.length, true))
   if (randomApi === 'BASE_URL') {
     return getRamdomApi()
   }
@@ -50,23 +60,17 @@ const getRamdomApi = () => {
 /**
  * Retrieves a random data object from the provided API endpoint.
  * @async
- * @function getDataApiRandom
+ * @function getSingleDataApiRandom
  * @param {Object} api - The API object containing the endpoint's URL and max number of pages.
  * @returns {Promise<Object>} The retrieved data object.
  * @throws {Error} An error occurred while interacting with the API or AWS services.
  */
-const getDataApiRandom = async (api) => {
-  const urls = new Array(api.MAX_PAGES)
-    .fill(`${api.URL}/?page=`)
-    .map((url, index) => `${url}${index + 1}`)
-  const response = await Promise.all(
-    urls.map(async (url) => await axios.get(url))
-  )
+const getSingleDataApiRandom = async (api) => {
+  const url = `${api.URL}/?page=${generateRandomNumber(api.MAX_PAGES)}`
+  const response = await axios.get(url)
 
-  let results = response.map((item) => item.data?.results || item.data)
-  results = results.flat()
-
-  const data = results.at(Math.floor(Math.random() * results.length))
+  const results = response.data?.results || response.data
+  const data = results.at(generateRandomNumber(results.length, true))
 
   return data
 }
@@ -110,7 +114,7 @@ const getDataApi = async (endpoint) => {
   if (!endpoint) api = getRamdomApi()
   if (!api) throw new Error('Endpoint not found')
 
-  let data = await getDataApiRandom(api)
+  let data = await getSingleDataApiRandom(api)
   data = await translateKeys(data)
 
   return data

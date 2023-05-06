@@ -54,6 +54,8 @@ const getRamdomApi = () => {
   if (randomApi === 'BASE_URL') {
     return getRamdomApi()
   }
+  const api = API[randomApi]
+  api.NAME = randomApi
   return API[randomApi]
 }
 
@@ -116,6 +118,7 @@ const getDataApi = async (endpoint) => {
 
   let data = await getSingleDataApiRandom(api)
   data = await translateKeys(data)
+  data.categoria = endpoint || api.NAME
 
   return data
 }
@@ -149,7 +152,7 @@ const wrapFunction = async (callback) => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: { message: error.message }
+      errorMessage: error.message
     }
   }
 }

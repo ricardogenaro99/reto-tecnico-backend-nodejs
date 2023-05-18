@@ -194,25 +194,25 @@ components:
             response:
               type: object
               properties:
-                BASIC_RAMDOM_DATA: 
+                BASIC_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/,
-                FILM_RAMDOM_DATA: 
+                FILM_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/film,
-                PEOPLE_RAMDOM_DATA: 
+                PEOPLE_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/people,
-                PLANET_RAMDOM_DATA: 
+                PLANET_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/planet,
-                SPECIE_RAMDOM_DATA: 
+                SPECIE_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/specie,
-                STARSHIP_RAMDOM_DATA: 
+                STARSHIP_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/starship,
-                VEHICLE_RAMDOM_DATA: 
+                VEHICLE_RANDOM_DATA: 
                   type: string
                   example: https://of39yj25b5.execute-api.us-east-1.amazonaws.com/vehicle
               

@@ -232,10 +232,10 @@ https://of39yj25b5.execute-api.us-east-1.amazonaws.com
 |type|string|
 |body|object|
 |response|object|
-|BASIC_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/)|>
-|FILM_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/film)|>
-|PEOPLE_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/people)|>
-|PLANET_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/planet)|>
-|SPECIE_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/specie)|>
-|STARSHIP_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/starship)|>
-|VEHICLE_RAMDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/vehicle)|>
+|BASIC_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/)|>
+|FILM_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/film)|>
+|PEOPLE_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/people)|>
+|PLANET_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/planet)|>
+|SPECIE_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/specie)|>
+|STARSHIP_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/starship)|>
+|VEHICLE_RANDOM_DATA|string (example: <https://of39yj25b5.execute-api.us-east-1.amazonaws.com/vehicle)|>

@@ -12,7 +12,7 @@ const { v4: uuid } = require('uuid')
  * @throws {Error} An error occurred while interacting with AWS services.
  */
 const createItem = async (body) => {
-  const dynadoDB = new AWS.DynamoDB.DocumentClient()
+  const dynamoDB = new AWS.DynamoDB.DocumentClient()
   const data = JSON.parse(body)
   const now = new Date().toISOString()
   const item = {
@@ -21,7 +21,7 @@ const createItem = async (body) => {
     createAt: now,
     updateAt: now
   }
-  await dynadoDB
+  await dynamoDB
     .put({
       TableName: TABLE.NAME,
       Item: item
@@ -45,14 +45,14 @@ const generateRandomNumber = (maxLimit, isArray = false) => {
 
 /**
  * Retrieves a random API endpoint from the API object.
- * @function getRamdomApi
+ * @function getRandomApi
  * @returns {string} A random API endpoint.
  */
-const getRamdomApi = () => {
+const getRandomApi = () => {
   const arrApiKeys = Object.keys(API)
   const randomApi = arrApiKeys.at(generateRandomNumber(arrApiKeys.length, true))
   if (randomApi === 'BASE_URL') {
-    return getRamdomApi()
+    return getRandomApi()
   }
   const api = API[randomApi]
   api.NAME = randomApi
@@ -113,7 +113,7 @@ const translateKeys = async (obj) => {
  */
 const getDataApi = async (endpoint) => {
   let api = API[endpoint]
-  if (!endpoint) api = getRamdomApi()
+  if (!endpoint) api = getRandomApi()
   if (!api) throw new Error('Endpoint not found')
 
   let data = await getSingleDataApiRandom(api)
